@@ -12,7 +12,7 @@ class CreateOrdersTable extends Migration
         try {
             Schema::create('orders', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->enum('status', ['создан', 'обработан', 'передан курьеру', 'выполнен', 'отменен']);
+                $table->enum('status', \App\Order::STATUS);
                 $table->unsignedBigInteger('user_id');
                 $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate("cascade");
                 $table->timestamps();
