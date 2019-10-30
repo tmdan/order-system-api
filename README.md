@@ -15,3 +15,24 @@
  - смена статуса заказа
  - Реализовать persistent-хранилище информации о заказах и товарах
  - Реализовать консольные  команды, которые будут дублировать функционал Rest API
+ 
+ # Пояснительная записка
+ Использованные технологии и пакеты:
+  - Laravel 6.2.
+  
+Добавленные консольные команды:
+  - php artisan api:orders       -     Список всех товаров
+  - php artisan api:orders-create  -   Добавление нового заказа
+  - php artisan api:orders-update  -   Обновления статуса заказа
+  - php artisan api:products     -     Список всех продуктов
+
+Инициализации проекта:
+  - Разверните проект на локальном ПК
+  - Переменуйте файл .env.example на .env.
+  - Создайте бд с названием order-system-api
+  - Проведите миграции и сиды
+  - Готово
+  
+Пример работы:
+   -  API Доки : https://documenter.getpostman.com/view/2738956/SW11XyT5?version=latest
+   - Youtube: https://www.youtube.com/watch?v=3xajSc6tB8E&feature=youtu.be

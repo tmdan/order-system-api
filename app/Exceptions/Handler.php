@@ -3,7 +3,11 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -46,6 +50,53 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+
+        if($exception instanceof NotFoundHttpException || $exception instanceof ModelNotFoundException  && $request->wantsJson()){
+            $json = [
+                'message' => "404 - Incorrect url",
+                'errors' => 'There is no such link.',
+            ];
+
+            return response()->json($json, 404);
+        }
+
+        if($exception instanceof AuthenticationException  && $request->wantsJson() ){
+            $json = [
+                'message' => "You cannot sign with those credentials",
+                'errors' => "Unauthenticated",
+            ];
+
+            return response()->json($json, 401);
+        }
+
+
+
+        if($exception instanceof ValidationException  && $request->wantsJson() ){
+            $json = [
+                'message' => $exception->getMessage(),
+                'errors' =>
+                    $exception->errors()
+                ,
+            ];
+
+            return response()->json($json, 215);
+        }
+
+
+        if ($request->wantsJson() && !is_null($exception)) {
+
+            $json = [
+                'message' => "Something is going wrong!",
+                'errors' => [
+                    $exception->getMessage()
+                ],
+            ];
+
+            return response()->json($json, 215);
+        }
+
+
+
         return parent::render($request, $exception);
     }
 }
